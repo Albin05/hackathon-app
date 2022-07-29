@@ -18,6 +18,7 @@ const initialState = {
   selectedChat: "",
   singleChat: false,
   isError: false,
+  isRoomCreated: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -45,6 +46,12 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         singleChat: payload,
+      };
+    }
+    case types.SET_ROOM_STATUS: {
+      return {
+        ...state,
+        isRoomCreated: payload,
       };
     }
     default:

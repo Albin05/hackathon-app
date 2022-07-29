@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Flex, Input, Stack } from "@chakra-ui/react";
 import { ChatList } from "../components/ChatList";
 import { useState } from "react";
 import axios from "axios";
 import { ChatState } from "../Context/ChatProvider";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SingleChat } from "../components/SingleChat";
+import { setIsRoomCreated } from "../redux/AppReducer/action";
 const Home = () => {
   const [qstn, setQstn] = useState("");
+  const dispatch = useDispatch();
+  const [chatList, setChatList] = useState([]);
+  const [flag, setFlag] = useState(false);
 
   const User = useSelector((state) => state.appReducer.user);
   const singleChat = useSelector((state) => state.appReducer.singleChat);
+  const isRoomCreated = useSelector((state) => state.appReducer.isRoomCreated);
   // console.log("redux", User);
   const handleAsk = () => {
     // console.log(user);
@@ -26,7 +31,25 @@ const Home = () => {
       },
       config
     );
+    setFlag(!flag);
+    dispatch(setIsRoomCreated(!isRoomCreated));
   };
+  const fetchChats = () => {
+    axios
+      .get("/api/chat", {
+        headers: { Authorization: `Bearer ${User?.token}` },
+      })
+      .then((res) => {
+        // console.log(res.data);
+        setChatList(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    fetchChats();
+  }, [flag]);
   return (
     <Box w="100%" h="100vh">
       <Box>User Navbar</Box>
@@ -40,7 +63,7 @@ const Home = () => {
             />
             <Button onClick={handleAsk}>Ask</Button>
           </Stack>
-          <ChatList />
+          <ChatList chatList={chatList} />
         </Box>
         <Box w="65%" border="1px solid green" h="100vh">
           <Box w="100%" borderBottom={"1px solid"}>

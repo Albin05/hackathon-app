@@ -15,3 +15,7 @@ export const resetSelectedChat = (payload) => (dispatch) => {
 export const setSingleChat = (payload) => (dispatch) => {
   dispatch({ type: types.SET_SINGLE_CHAT, payload });
 };
+
+export const setIsRoomCreated = (payload) => (dispatch) => {
+  dispatch({ type: types.SET_ROOM_STATUS, payload });
+};
