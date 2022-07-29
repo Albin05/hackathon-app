@@ -28,8 +28,9 @@ export const Login = () => {
         password,
       },
     });
+    localStorage.setItem("userInfo", JSON.stringify(data));
     setUser(data);
-    dispatch(saveUser(data));
+    saveUser(data);
     console.log(data);
     navigate("/questions");
   };

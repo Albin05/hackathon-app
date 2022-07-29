@@ -18,20 +18,29 @@ const Question = () => {
   const isRoomCreated = useSelector((state) => state.appReducer.isRoomCreated);
   // console.log("redux", User);
   const handleAsk = () => {
+    console.log(User.token)
     // console.log(user);
     const config = {
       headers: {
         Authorization: `Bearer ${User.token}`,
       },
     };
-    axios.post(
-      "/api/chat/groupall",
-      {
-        name: qstn,
-      },
-      config
-    );
-    setFlag(!flag);
+    axios
+      .post(
+        "/api/chat/groupall",
+        {
+          name: qstn,
+        },
+        config
+      )
+      .then((res) => {
+        setFlag(!flag);
+        setChatList([...chatList, res.data]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     dispatch(setIsRoomCreated(!isRoomCreated));
   };
   const fetchChats = () => {
@@ -49,7 +58,7 @@ const Question = () => {
   };
   useEffect(() => {
     fetchChats();
-  }, [flag]);
+  }, [flag, isRoomCreated]);
   return (
     <Box w="100%" h="100vh">
       <Flex>

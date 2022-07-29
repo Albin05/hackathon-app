@@ -25,10 +25,6 @@ export const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case types.SAVE_USER: {
-      saveData("userInfo", {
-        ...state,
-        user: payload,
-      });
       return {
         ...state,
         user: payload,

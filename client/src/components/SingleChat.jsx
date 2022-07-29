@@ -20,6 +20,8 @@ export const SingleChat = () => {
   const [msg, setMsg] = useState("");
   const { notification, setNotification } = ChatState();
 
+  
+
   //   console.log("hello");
   const fetchMessages = () => {
     // console.log("user", user);
