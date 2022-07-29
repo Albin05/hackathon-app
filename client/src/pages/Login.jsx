@@ -28,11 +28,10 @@ export const Login = () => {
         password,
       },
     });
-    localStorage.setItem("userInfo", JSON.stringify(data));
     setUser(data);
-    saveUser(data);
+    dispatch(saveUser(data));
     console.log(data);
-    navigate("/");
+    navigate("/questions");
   };
   return (
     <Container>

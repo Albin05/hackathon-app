@@ -14,10 +14,6 @@ const ChatProvider = ({ children }) => {
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setUser(userInfo);
-    if (user) {
-      navigate("/");
-    }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
