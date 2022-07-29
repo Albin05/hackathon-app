@@ -17,7 +17,7 @@ const ChatProvider = ({ children }) => {
     if (user) {
       navigate("/");
     }
-    if (!userInfo) navigate("/login");
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
