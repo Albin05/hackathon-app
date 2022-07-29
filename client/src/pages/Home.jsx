@@ -12,6 +12,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const [chatList, setChatList] = useState([]);
   const [flag, setFlag] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const User = useSelector((state) => state.appReducer.user);
   const singleChat = useSelector((state) => state.appReducer.singleChat);
@@ -19,19 +20,28 @@ const Home = () => {
   // console.log("redux", User);
   const handleAsk = () => {
     // console.log(user);
+    setLoading(true);
     const config = {
       headers: {
         Authorization: `Bearer ${User.token}`,
       },
     };
-    axios.post(
-      "/api/chat/groupall",
-      {
-        name: qstn,
-      },
-      config
-    );
-    setFlag(!flag);
+    axios
+      .post(
+        "/api/chat/groupall",
+        {
+          name: qstn,
+        },
+        config
+      )
+      .then((res) => {
+        setFlag(!flag);
+        setChatList([...chatList, res.data]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     dispatch(setIsRoomCreated(!isRoomCreated));
   };
   const fetchChats = () => {
@@ -48,8 +58,9 @@ const Home = () => {
       });
   };
   useEffect(() => {
+    console.log("hello");
     fetchChats();
-  }, [flag]);
+  }, [flag, isRoomCreated]);
   return (
     <Box w="100%" h="100vh">
       <Box>User Navbar</Box>
