@@ -18,14 +18,11 @@ export const SingleChat = () => {
   const [fetchAgain, setFetchAgain] = useState(false);
   const [data, setData] = useState([]);
   const [msg, setMsg] = useState("");
-    const {
-      notification,
-      setNotification,
-    } = ChatState();
+  const { notification, setNotification } = ChatState();
 
   //   console.log("hello");
   const fetchMessages = () => {
-    console.log("user", user);
+    // console.log("user", user);
     axios
       .get(`/api/message/${id}`, {
         headers: { Authorization: `Bearer ${user?.token}` },
@@ -51,7 +48,7 @@ export const SingleChat = () => {
           },
         };
         setMsg("");
-        const  response  = await axios.post(
+        const response = await axios.post(
           "/api/message",
           {
             content: msg,
@@ -59,8 +56,8 @@ export const SingleChat = () => {
           },
           config
         );
-                socket.emit("new message", response.data);
-                setData([...data, response.data]);
+        socket.emit("new message", response.data);
+        setData([...data, response.data]);
       } catch (error) {
         console.log(error);
       }
@@ -71,36 +68,38 @@ export const SingleChat = () => {
     fetchMessages();
   }, [id]);
 
-   useEffect(() => {
-     socket = io(ENDPOINT);
-     socket.emit("setup", user);
-     socket.on("connected", () => setSocketConnected(true));
-  
-   }, []);
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("connected", () => setSocketConnected(true));
+  }, []);
 
-   useEffect(() => {
-     fetchMessages();
+  useEffect(() => {
+    fetchMessages();
 
-     selectedChatCompare = selectedChat;
-     // eslint-disable-next-line
-   }, [selectedChat]);
+    selectedChatCompare = selectedChat;
+    // eslint-disable-next-line
+  }, [selectedChat]);
 
-   useEffect(() => {
-     socket.on("message recieved", (newMessageRecieved) => {
-       if (
-         !selectedChatCompare || // if chat is not selected or doesn't match current chat
-         selectedChatCompare._id !== newMessageRecieved.chat._id
-       ) {
-         if (!notification.includes(newMessageRecieved)) {
-           setNotification([newMessageRecieved, ...notification]);
-           setFetchAgain(!fetchAgain);
-         }
-       } else {
-         setData([...data, newMessageRecieved]);
-       }
-     });
-   });
-
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      // console.log("data", data[0]);
+      // console.log("new msg recd", newMessageRecieved);
+      setData([...data, newMessageRecieved]);
+      if (
+        !selectedChatCompare || // if chat is not selected or doesn't match current chat
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+        if (!notification.includes(newMessageRecieved)) {
+          setNotification([newMessageRecieved, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
+      } else {
+        // console.log("else", newMessageRecieved);
+        setData([...data, newMessageRecieved]);
+      }
+    });
+  });
 
   return (
     <div>

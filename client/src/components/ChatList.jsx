@@ -26,7 +26,7 @@ export const ChatList = () => {
         headers: { Authorization: `Bearer ${User?.token}` },
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setChats(res.data);
       })
       .catch((error) => {
