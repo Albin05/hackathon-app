@@ -1,4 +1,4 @@
-import { Box, FormControl, Input, Stack } from "@chakra-ui/react";
+import { Box, FormControl, Input, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -10,7 +10,7 @@ const ENDPOINT = "http://localhost:5000"; // "https://talk-a-tive.herokuapp.com"
 var socket, selectedChatCompare;
 
 export const SingleChat = () => {
-  const id = useSelector((state) => state.appReducer.selectedChat);
+  const chat = useSelector((state) => state.appReducer.selectedChat);
   const user = useSelector((state) => state.appReducer.user);
   const selectedChat = useSelector((state) => state.appReducer.selectedChat);
   const [socketConnected, setSocketConnected] = useState(false);
@@ -20,19 +20,17 @@ export const SingleChat = () => {
   const [msg, setMsg] = useState("");
   const { notification, setNotification } = ChatState();
 
-  
-
   //   console.log("hello");
   const fetchMessages = () => {
     // console.log("user", user);
     axios
-      .get(`/api/message/${id}`, {
+      .get(`/api/message/${chat._id}`, {
         headers: { Authorization: `Bearer ${user?.token}` },
       })
       .then((res) => {
         // console.log(res.data);
         setData(res.data);
-        socket.emit("join chat", id);
+        socket.emit("join chat", chat._id);
         // console.log("message", res.data);
       })
       .catch((error) => {
@@ -54,7 +52,7 @@ export const SingleChat = () => {
           "/api/message",
           {
             content: msg,
-            chatId: id,
+            chatId: chat._id,
           },
           config
         );
@@ -68,7 +66,7 @@ export const SingleChat = () => {
 
   useEffect(() => {
     fetchMessages();
-  }, [id]);
+  }, [chat._id]);
 
   useEffect(() => {
     socket = io(ENDPOINT);
@@ -103,13 +101,27 @@ export const SingleChat = () => {
     });
   });
 
+  console.log(data);
+
   return (
     <div>
       <Stack>
-        <Box>Single Chat</Box>
-        <Box h="60vh" overflowY={"scroll"}>
+        <Box bg="teal">
+          <Text color="white">{chat.chatName}</Text>
+        </Box>
+        <Box h="60vh" overflowY={"scroll"} border="1px solid red">
           {data.map((msg) => (
-            <Box key={msg._id}>{msg.content}</Box>
+            <Box
+              key={msg._id}
+              w="90%"
+              textAlign="left"
+              m="10px"
+              bg={"#f3f4f6"}
+              padding="10px"
+              borderRadius="25px"
+            >
+              {msg.content}
+            </Box>
           ))}
         </Box>
         <Box mb="10px">

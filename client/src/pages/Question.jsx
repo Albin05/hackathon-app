@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Button, Flex, Input, Stack } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Stack, Text } from "@chakra-ui/react";
 import { ChatList } from "../components/ChatList";
 import { useState } from "react";
 import axios from "axios";
@@ -69,13 +69,15 @@ const Question = () => {
               value={qstn}
               onChange={(e) => setQstn(e.target.value)}
             />
-            <Button onClick={handleAsk} colorScheme="teal">Add a question</Button>
+            <Button onClick={handleAsk} colorScheme="teal">
+              Add a question
+            </Button>
           </Stack>
           <ChatList chatList={chatList} />
         </Box>
         <Box w="65%" border="1px solid green" h="100vh">
           <Box w="100%" borderBottom={"1px solid"}>
-            chatBox Navbar
+            <Text fontSize="2xl" fontWeight="500">Messages</Text>
           </Box>
           <Box h="75vh">{singleChat && <SingleChat />}</Box>
         </Box>

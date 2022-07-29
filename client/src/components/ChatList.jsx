@@ -30,7 +30,7 @@ export const ChatList = ({ chatList }) => {
               <Text
                 cursor="pointer"
                 onClick={() => {
-                  handleSelectedChat(chat._id);
+                  handleSelectedChat(chat);
                 }}
               >
                 {chat.chatName}
