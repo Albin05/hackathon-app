@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Container, FormControl, Input } from "@chakra-ui/react";
+import { Button, Container, FormControl, Input, Stack } from "@chakra-ui/react";
 import axios from "axios";
 import ChatProvider, { ChatState } from "../Context/ChatProvider";
 import { useNavigate } from "react-router-dom";
@@ -36,16 +36,23 @@ export const Login = () => {
   };
   return (
     <Container>
-      <FormControl>
-        <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-      </FormControl>
-      <FormControl>
-        <Input
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </FormControl>
-      <Button onClick={handleSubmit}>Submit</Button>
+      <Stack>
+        <FormControl>
+          <Input
+            placeholder="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </FormControl>
+        <FormControl>
+          <Input
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </FormControl>
+        <Button onClick={handleSubmit} colorScheme="teal">
+          Submit
+        </Button>
+      </Stack>
     </Container>
   );
 };

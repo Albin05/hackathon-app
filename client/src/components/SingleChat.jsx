@@ -1,4 +1,12 @@
-import { Box, FormControl, Input, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  Input,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -19,7 +27,7 @@ export const SingleChat = () => {
   const [data, setData] = useState([]);
   const [msg, setMsg] = useState("");
   const { notification, setNotification } = ChatState();
-
+ 
   //   console.log("hello");
   const fetchMessages = () => {
     // console.log("user", user);
@@ -106,10 +114,18 @@ export const SingleChat = () => {
   return (
     <div>
       <Stack>
-        <Box bg="teal">
-          <Text color="white">{chat.chatName}</Text>
-        </Box>
-        <Box h="60vh" overflowY={"scroll"} border="1px solid red">
+        <Flex justifyContent="space-between" p="10px" bg="teal">
+          <Text color="white" fontSize="20px">
+            {chat.chatName}
+          </Text>
+          <Button
+            variant="outline"
+            bg="white"
+          >
+            Request an expert
+          </Button>
+        </Flex>
+        <Box h="60vh" overflowY={"scroll"}>
           {data.map((msg) => (
             <Box
               key={msg._id}

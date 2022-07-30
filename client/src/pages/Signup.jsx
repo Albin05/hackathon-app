@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container, FormControl, Input } from "@chakra-ui/react";
+import { Button, Container, FormControl, Input, Stack } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -36,19 +36,24 @@ const Signup = () => {
   };
   return (
     <Container>
-      <FormControl>
-        <Input placeholder="Name" onChange={(e) => setName(e.target.value)} />
-      </FormControl>
-      <FormControl>
-        <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-      </FormControl>
-      <FormControl>
-        <Input
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </FormControl>
-      <Button onClick={handleSubmit}>Submit</Button>
+      <Stack>
+        <FormControl>
+          <Input placeholder="Name" onChange={(e) => setName(e.target.value)} />
+        </FormControl>
+        <FormControl>
+          <Input
+            placeholder="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </FormControl>
+        <FormControl>
+          <Input
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </FormControl>
+        <Button onClick={handleSubmit} colorScheme="teal">Submit</Button>
+      </Stack>
     </Container>
   );
 };

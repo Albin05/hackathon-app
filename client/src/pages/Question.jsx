@@ -62,7 +62,7 @@ const Question = () => {
   return (
     <Box w="100%" h="100vh">
       <Flex>
-        <Box w="35%" border="1px solid red" h="100vh">
+        <Box w="35%" border="1px solid black" mr="10px" h="100vh">
           <Stack>
             <Input
               placeholder="New Question"
